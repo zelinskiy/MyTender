@@ -1,0 +1,31 @@
+@model MyTender.Models.TenderViewModels.TenderViewModel
+
+@{
+    ViewData["Title"] = "Tender";
+    ViewData["TenderId"] = Model.Tender.Id;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool IsMyTender = Model.Me.Id == Model.Tender.Author.Id;
+}
+
+<h2>Tender</h2>
+<p>@Model.Tender.Text</p>
+
+@{
+    foreach (var r in Model.Responces)
+    {
+        <div class="well">
+            @if (IsMyTender && Model.Tender.IsActive)
+            {
+                <a asp-action="Close" asp-route-id="@r.Id">Close</a>
+            }
+            <p>@r.Text</p> 
+        </div>
+         
+    }
+}
+
+@Html.Partial("AddResponce.cshtml", new TenderResponce(), ViewData)
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

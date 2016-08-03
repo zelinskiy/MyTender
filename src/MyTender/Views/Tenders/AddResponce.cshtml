@@ -1,0 +1,28 @@
+@model TenderResponce
+
+<form asp-action="AddResponce" asp-route-id="@ViewData["TenderId"]">
+    <div class="well">
+        <div class="form-horizontal">
+            <h4>Your Responce</h4>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Text" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Text" autocomplete="off" class="form-control" />
+                    <span asp-validation-for="Text" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>    
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

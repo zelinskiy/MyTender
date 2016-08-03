@@ -1,0 +1,49 @@
+@using MyTender.Models
+@model MyTender.Models.TenderViewModels.IndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New Tender</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Price
+            </th>
+            <th>
+                Task
+            </th>
+            <th>
+                Is Opened
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var tender in Model.Tenders
+    .OrderByDescending(t=>t.Id)
+    .OrderByDescending(t => t.IsActive)) {
+        <tr>            
+            <td>
+                @Html.DisplayFor(modelItem => tender.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => tender.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => tender.IsActive)
+            </td>
+            <td>
+                <a asp-action="Tender" asp-route-id="@tender.Id">Link</a>   
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

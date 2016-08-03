@@ -8,9 +8,10 @@ using MyTender.Data;
 namespace MyTender.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160803103559_Migration2")]
+    partial class Migration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
@@ -198,9 +199,7 @@ namespace MyTender.Data.Migrations
 
                     b.Property<int>("Price");
 
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 1000);
+                    b.Property<string>("Text");
 
                     b.HasKey("Id");
 
@@ -219,8 +218,7 @@ namespace MyTender.Data.Migrations
                     b.Property<int?>("TenderId");
 
                     b.Property<string>("Text")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 1000);
+                        .IsRequired();
 
                     b.HasKey("Id");
 
