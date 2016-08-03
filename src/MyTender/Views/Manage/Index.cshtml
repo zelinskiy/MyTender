@@ -3,8 +3,37 @@
     ViewData["Title"] = "Manage your account";
 }
 
+@section Scripts{
+<script>
+    function uploadAvatar() {
+        var data = new FormData($("#uploadForm")[0]);
+        $.ajax({
+            url: "/Manage/ChangeAvatar",
+            type: "POST",
+            data: data,
+            contentType: false,
+            dataType: false,
+            processData: false,
+            success: function (result) {
+                window.location.reload();
+            }
+        });
+    }
+</script>
+}
+
+
+
 <h2>@ViewData["Title"].</h2>
 <p class="text-success">@ViewData["StatusMessage"]</p>
+
+
+<form id="uploadForm" enctype="multipart/form-data">
+    <label for="file">
+        <img style="max-height:300px;max-width:300px;" src="@Model.AvatarUrl" />
+    </label>
+    <input id="file" type="file" style="display:none" name="file" onchange="uploadAvatar()" />
+</form>
 
 <div>
     <h4>Change your account settings</h4>
@@ -70,5 +99,7 @@
 
         <dt>Money: </dt>
         <dd><p>@Model.Money</p></dd>
+
+
     </dl>
 </div>

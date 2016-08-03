@@ -15,6 +15,9 @@
     <thead>
         <tr>
             <th>
+                Author
+            </th>
+            <th>
                 Price
             </th>
             <th>
@@ -30,7 +33,11 @@
 @foreach (var tender in Model.Tenders
     .OrderByDescending(t=>t.Id)
     .OrderByDescending(t => t.IsActive)) {
-        <tr>            
+        <tr>
+            <td>
+                <p>@tender.Author.UserName</p>
+                <img style="max-height:100px; max-width:50px;" src="@tender.Author.AvatarUrl" />             
+            </td>      
             <td>
                 @Html.DisplayFor(modelItem => tender.Price)
             </td>

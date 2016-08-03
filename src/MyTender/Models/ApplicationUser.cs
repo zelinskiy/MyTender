@@ -12,5 +12,7 @@ namespace MyTender.Models
         public virtual List<Tender> Tenders { get; set; }
         public virtual List<TenderResponce> TenderResponces { get; set; }
         public int Money { get; set; }
+
+        public string AvatarUrl { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using MyTender.Models;
 using MyTender.Models.ManageViewModels;
 using MyTender.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace MyTender.Controllers
 {
@@ -20,12 +21,14 @@ namespace MyTender.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly FileSavingService _fileSaver;
 
         public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IEmailSender emailSender,
         ISmsSender smsSender,
+        FileSavingService fileSaver,
         ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
@@ -33,9 +36,12 @@ namespace MyTender.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
-        }
 
-        //
+            _fileSaver = fileSaver;
+        }
+        
+
+
         // GET: /Manage/Index
         [HttpGet]
         public async Task<IActionResult> Index(ManageMessageId? message = null)
@@ -58,9 +64,25 @@ namespace MyTender.Controllers
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
                 Money = user.Money,
+                AvatarUrl = user.AvatarUrl
             };
             return View(model);
         }
+
+        
+        //
+        // POST: /Manage/ChangeAvatar
+        [HttpPost]
+        public async Task<IActionResult> ChangeAvatar(IFormFile file)
+        {
+            var user = await GetCurrentUserAsync();
+            user.AvatarUrl = await _fileSaver.SaveFileAsync(file);
+            var result = await _userManager.UpdateAsync(user);
+
+            return Content("OK");
+        }
+
+
 
         //
         // POST: /Manage/RemoveLogin

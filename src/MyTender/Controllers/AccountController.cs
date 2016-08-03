@@ -17,6 +17,8 @@ namespace MyTender.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private static readonly string defaultAvatarUrl = "uploads/defaultAvatar.png";
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -107,6 +109,7 @@ namespace MyTender.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 user.Money = 10000;
+                user.AvatarUrl = defaultAvatarUrl;
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

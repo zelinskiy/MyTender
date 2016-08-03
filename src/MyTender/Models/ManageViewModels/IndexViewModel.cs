@@ -19,5 +19,7 @@ namespace MyTender.Models.ManageViewModels
         public bool BrowserRemembered { get; set; }
 
         public int Money { get; set; }
+
+        public string AvatarUrl { get; set; }
     }
 }
