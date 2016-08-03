@@ -102,6 +102,15 @@ namespace MyTender.Controllers
                 .Where(r => r.Tender.Id == tender.Id)
                 .ToListAsync();
 
+            foreach(var r in responces)
+            {
+                r.likes = _context.Likes
+                    .Count(l => l.TenderResponceId == r.Id);
+                r.likedByMe = _context.Likes
+                    .Count(l => l.TenderResponceId == r.Id 
+                        && l.ApplicationUserId == Me.Id) != 0;
+            }
+
             var model = new TenderViewModel()
             {
                 Tender = tender,
@@ -133,6 +142,45 @@ namespace MyTender.Controllers
             
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> ToggleLike(int id)
+        {
+            var user = Me;
+            var responce = await _context.TenderResponces
+                .Include(t=>t.Author)
+                .Include(t => t.Tender)
+                .Include(t=>t.Tender.Responces)
+                .SingleOrDefaultAsync(r => r.Id == id);
+
+
+            var responces = responce.Tender.Responces;
+            var likesInTender = _context.Likes
+                .Count(l => l.ApplicationUserId == user.Id
+                    && responces.Exists(r => r.Id == l.TenderResponceId));
+
+            var like = await _context.Likes
+                .SingleOrDefaultAsync(l => l.TenderResponceId == id 
+                    && l.ApplicationUserId == user.Id);
+            if (like == null)
+            {
+                if (likesInTender < 3)
+                {
+                    _context.Likes.Add(new Like()
+                    {
+                        ApplicationUserId = user.Id,
+                        TenderResponceId = id
+                    });
+                }               
+            }
+            else
+            {
+                _context.Likes.Remove(like);
+            }
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Tender", new { id = responce.Tender.Id });
+        }
 
     }
 }

@@ -17,5 +17,9 @@ namespace MyTender.Models
 
         public virtual ApplicationUser Author { get; set; }
         public virtual Tender Tender { get; set; }
+
+        public int likes;
+        public bool likedByMe;
+
     }
 }

@@ -18,7 +18,16 @@
             {
                 <a asp-action="Close" asp-route-id="@r.Id">Close</a>
             }
-            <p>@r.Text</p> 
+            <p>@r.Text</p>             
+            <p>@r.likes</p>
+            @if (r.likedByMe)
+            {
+                <a style="color:red;" asp-action="ToggleLike" asp-route-id="@r.Id">Like</a>
+            }
+            else
+            {
+                <a style="color:green;" asp-action="ToggleLike" asp-route-id="@r.Id">Like</a>
+            }
         </div>
          
     }
