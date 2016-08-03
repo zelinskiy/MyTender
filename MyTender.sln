@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{04BDE70C-C5F2-4D7A-A365-1C70048DCCB9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B2A3323E-2ADC-4634-BABB-1FA73C54C9A3}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyTender", "src\MyTender\MyTender.xproj", "{211C9183-16DE-4CC8-B03E-14AA3D45EF8E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{211C9183-16DE-4CC8-B03E-14AA3D45EF8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{211C9183-16DE-4CC8-B03E-14AA3D45EF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{211C9183-16DE-4CC8-B03E-14AA3D45EF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{211C9183-16DE-4CC8-B03E-14AA3D45EF8E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{211C9183-16DE-4CC8-B03E-14AA3D45EF8E} = {04BDE70C-C5F2-4D7A-A365-1C70048DCCB9}
+	EndGlobalSection
+EndGlobal
