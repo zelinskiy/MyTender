@@ -11,12 +11,15 @@ using Microsoft.Extensions.Logging;
 using MyTender.Models;
 using MyTender.Models.AccountViewModels;
 using MyTender.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MyTender.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        string[] myRoles = new string[] { "admin" };
+
         private static readonly string defaultAvatarUrl = "uploads/defaultAvatar.png";
 
         private readonly UserManager<ApplicationUser> _userManager;
@@ -39,12 +42,14 @@ namespace MyTender.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
+
+
         //
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null)
-        {
+        public async Task<IActionResult> Login(string returnUrl = null)
+        {            
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -55,7 +60,7 @@ namespace MyTender.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
-        {
+        {            
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -439,6 +444,8 @@ namespace MyTender.Controllers
                 return View(model);
             }
         }
+
+        
 
         #region Helpers
 

@@ -9,6 +9,7 @@ using MyTender.Data;
 using MyTender.Models;
 using Microsoft.AspNetCore.Authorization;
 using MyTender.Models.TenderViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyTender.Controllers
 {
@@ -16,10 +17,13 @@ namespace MyTender.Controllers
     public class TendersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        UserManager<ApplicationUser> _userManager;
 
-        public TendersController(ApplicationDbContext context)
+        public TendersController(ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         private ApplicationUser Me
@@ -31,7 +35,7 @@ namespace MyTender.Controllers
         }
 
         public async Task<IActionResult> Index()
-        {
+        {            
             var model = new IndexViewModel();
             model.Tenders = await _context.Tenders
                 .Include(t => t.Author)
@@ -182,6 +186,45 @@ namespace MyTender.Controllers
 
             return RedirectToAction("Tender", new { id = responce.Tender.Id });
         }
+
+
+        [HttpGet]
+        [Authorize(Roles ="admin")]
+        public async Task<IActionResult> DeleteTender(int id)
+        {
+            var tender = await _context.Tenders
+                .Include(t=>t.Responces)
+                .SingleOrDefaultAsync(t => t.Id == id);
+            var responces = tender.Responces;
+            var likes = _context.Likes
+                .Where(l => responces.Exists(r => r.Id == l.TenderResponceId));
+
+            _context.Likes.RemoveRange(likes);
+            _context.TenderResponces.RemoveRange(responces);
+            _context.Tenders.Remove(tender);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DeleteTenderResponce(int id)
+        {
+            var responce = await _context.TenderResponces
+                .Include(tr=>tr.Tender)
+                .SingleOrDefaultAsync(tr => tr.Id == id);
+            var likes = _context.Likes
+                .Where(l => l.TenderResponceId == responce.Id);
+            int tenderId = responce.Tender.Id;
+
+            _context.Likes.RemoveRange(likes);
+            _context.TenderResponces.Remove(responce);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Tender", new { id = tenderId });
+        }
+                
 
     }
 }

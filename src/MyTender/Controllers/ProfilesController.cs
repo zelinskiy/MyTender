@@ -7,7 +7,7 @@ using MyTender.Data;
 using MyTender.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyTender.Controllers
 {
@@ -49,8 +49,28 @@ namespace MyTender.Controllers
             else
             {
                 return View("Index", new List<ApplicationUser>() { model });
-            }
-            
+            }            
+        }
+
+        [Authorize(Roles ="admin")]
+        public async Task<IActionResult> ToggleAdmin(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (!(user.UserName == "zelinskiy1917@gmail.com"))
+            {
+                await _userManager.AddToRoleAsync(user, "admin");
+            }            
+            return RedirectToAction("Profile", new { id = id });
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> AddMoney(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            user.Money += 1000;
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("Profile", new { id = id });
         }
     }
 }

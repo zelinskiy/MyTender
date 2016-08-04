@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using MyTender.Models;
 using Microsoft.EntityFrameworkCore;
 using MyTender.Models.SearchViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyTender.Controllers
 {

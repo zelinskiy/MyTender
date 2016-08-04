@@ -23,5 +23,7 @@ namespace MyTender.Models
                 Email
             };
         }
+        
+
     }
 }

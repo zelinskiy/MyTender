@@ -9,6 +9,10 @@
 
 <h2>@Model.Tender.Text</h2>
 <h3>Reward = @Model.Tender.Price</h3>
+@if (User.IsInRole("admin"))
+{
+    <h5><a asp-action="DeleteTender" asp-route-id="@Model.Tender.Id">DELETE</a></h5>
+}
 
 @{
     foreach (var r in Model.Responces.OrderByDescending(x=>x.likes))
@@ -27,7 +31,7 @@
             
             @if (IsMyTender && Model.Tender.IsActive)
             {
-                <p><a asp-action="Close" asp-route-id="@r.Id">Close</a></p>
+                <p><a asp-action="Close" asp-route-id="@r.Id">Make winner</a></p>
             }
             <p>@r.Text</p>             
             <p>
@@ -41,6 +45,10 @@
                     <a  asp-action="ToggleLike" asp-route-id="@r.Id"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
                 }
             </p>
+            @if (User.IsInRole("admin"))
+            {
+                <h5><a asp-action="DeleteTenderResponce" asp-route-id="@r.Id">DELETE</a></h5>
+            }
         </div>
          
     }

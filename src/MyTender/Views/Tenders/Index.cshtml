@@ -46,6 +46,10 @@
                         {
                             <h3 style="color:red">CLOSED</h3>
                         }
+                        @if (User.IsInRole("admin"))
+                        {
+                            <h5><a asp-action="DeleteTender" asp-route-id="@tender.Id">DELETE</a></h5>
+                        }
                     </td>
                 </tr>
             </table>
