@@ -1,0 +1,20 @@
+@model IEnumerable<MyTender.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "All Profiles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+
+<div class="row">
+    
+    @foreach (var p in Model.OrderByDescending(x => x.Money)) {
+        <div class="col-sm-4">
+            @{Html.RenderPartial("ProfilePartial.cshtml", p);}
+        </div>
+    }
+    
+</div>
+

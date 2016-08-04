@@ -11,7 +11,7 @@
 <p>@Model.Tender.Text</p>
 
 @{
-    foreach (var r in Model.Responces)
+    foreach (var r in Model.Responces.OrderByDescending(x=>x.likes))
     {
         <div class="well">
             @if (IsMyTender && Model.Tender.IsActive)
@@ -22,11 +22,11 @@
             <p>@r.likes</p>
             @if (r.likedByMe)
             {
-                <a style="color:red;" asp-action="ToggleLike" asp-route-id="@r.Id">Like</a>
+                <a style="color:green;" asp-action="ToggleLike" asp-route-id="@r.Id"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
             }
             else
             {
-                <a style="color:green;" asp-action="ToggleLike" asp-route-id="@r.Id">Like</a>
+                <a  asp-action="ToggleLike" asp-route-id="@r.Id"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
             }
         </div>
          

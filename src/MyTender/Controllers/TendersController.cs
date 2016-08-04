@@ -42,18 +42,18 @@ namespace MyTender.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Tender model)
+        public IActionResult Create(Tender model)
         {
-            if(model.Price > Me.Money)
+            if (model.Price > Me.Money)
             {
                 ModelState.AddModelError("", $"Price is {model.Price}, but you have only {Me.Money}");
-            }            
+            }
             if (ModelState.IsValid)
             {
                 model.Author = Me;
@@ -67,7 +67,7 @@ namespace MyTender.Controllers
             else
             {
                 return View();
-            }            
+            }
         }
 
 

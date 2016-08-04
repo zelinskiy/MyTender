@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyTender.Models
 {
-    public class Tender
+    public class Tender:ISearchable
     {
         public int Id { get; set; }
 
@@ -22,5 +22,13 @@ namespace MyTender.Models
         public string Text { get; set; }
 
         public virtual List<TenderResponce> Responces { get; set; }
+
+        public List<string> GetSearchableFields()
+        {
+            return new List<string>()
+            {
+                Text
+            };
+        }
     }
 }

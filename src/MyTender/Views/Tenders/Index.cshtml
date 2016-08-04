@@ -2,55 +2,53 @@
 @model MyTender.Models.TenderViewModels.IndexViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tenders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewData["Title"]</h2>
 
 <p>
     <a asp-action="Create">Create New Tender</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Author
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Task
-            </th>
-            <th>
-                Is Opened
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+
 @foreach (var tender in Model.Tenders
-    .OrderByDescending(t=>t.Id)
-    .OrderByDescending(t => t.IsActive)) {
-        <tr>
-            <td>
-                <p>@tender.Author.UserName</p>
-                <img style="max-height:100px; max-width:50px;" src="@tender.Author.AvatarUrl" />             
-            </td>      
-            <td>
-                @Html.DisplayFor(modelItem => tender.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => tender.Text)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => tender.IsActive)
-            </td>
-            <td>
-                <a asp-action="Tender" asp-route-id="@tender.Id">Link</a>   
-            </td>
-        </tr>
+    .OrderByDescending(t => t.Price)
+    .OrderByDescending(t => t.IsActive))
+{
+    string col = "ghostwhite";
+    if(tender.Price >= 5000)
+    {
+        col = "gold";
+    }
+    else if (tender.Price >= 100)
+    {
+        col = "silver";
+    }
+
+    <div class="well" style="background-color:@col">
+        <a asp-action="Tender" style="text-decoration: none;color:#000000; " asp-controller="Tenders" asp-route-id="@tender.Id">
+            <table>
+                <tr>
+                    <td width="200px">
+                        <p>@tender.Author.UserName</p>
+                        <img style="max-height:100px; max-width:50px;" src="@tender.Author.AvatarUrl" />
+                    </td>
+                    <td width="200px"></td>
+                    <td>
+                        <p>Price: @Html.DisplayFor(modelItem => tender.Price)</p>
+                        <p>Task: @Html.DisplayFor(modelItem => tender.Text)</p>
+                        @if (tender.IsActive)
+                        {
+                            <h3 style="color:green">ACTIVE</h3>
+                        }
+                        else
+                        {
+                            <h3 style="color:red">CLOSED</h3>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </a>
+    </div>
 }
-    </tbody>
-</table>

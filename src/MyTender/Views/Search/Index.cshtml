@@ -1,0 +1,60 @@
+﻿@model MyTender.Models.SearchViewModels.IndexViewModel
+
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+
+<form asp-action="Index">
+    <input asp-for="Pattern"/>    
+    <div class="checkbox">
+        <label><input asp-for="IsActive" />Only Active</label>
+    </div>
+    <div class="checkbox">
+        <label><input asp-for="IsTender" />Tenders</label>
+    </div>
+    <div class="checkbox">
+        <label><input asp-for="IsTenderResponce" />Tender Responces</label>
+    </div>
+    <div class="checkbox">
+        <label><input asp-for="IsUser" />Users</label>
+    </div>    
+    
+    <input type="submit" />
+</form>
+
+@{ 
+    if (Model?.Result != null)
+    {
+        @foreach(var o in Model.Result)
+        {
+            var t = o as Tender;
+            var tr = o as TenderResponce;
+            var u = o as ApplicationUser;
+
+            if(t != null)
+            {
+                <h4>Type: Tender</h4>
+                <p>@t.Text</p>
+                <a asp-controller="Tenders" asp-action="Tender" asp-route-id="@t.Id"><p>Link</p></a>
+            }
+            else if (tr != null)
+            {
+                <h4>Type: TenderResponce</h4>
+                <p>At Tender "@tr.Tender.Text":</p>
+                <p>@tr.Text</p>
+                <a asp-controller="Tenders" asp-action="Tender" asp-route-id="@tr.Tender.Id"><p>Link</p></a>
+            }
+            else if (u != null)
+            {
+                <h4>Type: User</h4>
+                <p>@u.UserName</p>
+                <a asp-controller="Profiles" asp-action="Profile" asp-route-id="@u.Id"><p>Link</p></a>
+            }
+            <hr />
+        }
+    }
+}

@@ -1,0 +1,11 @@
+@model MyTender.Models.ApplicationUser
+
+<div class="well" style="height:300px;width:210px">
+    <a asp-action="Profile" style="text-decoration: none;color:#000000; " asp-controller="Profiles" asp-route-id="@Model.Id">
+        <img class="pull-left" src="/@Model.AvatarUrl" style="max-width:170px" />
+        <br />
+        <h6>@Model.UserName</h6>
+        <h6>Money: @Model.Money</h6>
+    </a>
+</div>   
+
