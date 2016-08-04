@@ -7,33 +7,54 @@
     bool IsMyTender = Model.Me.Id == Model.Tender.Author.Id;
 }
 
-<h2>Tender</h2>
-<p>@Model.Tender.Text</p>
+<h2>@Model.Tender.Text</h2>
+<h3>Reward = @Model.Tender.Price</h3>
 
 @{
     foreach (var r in Model.Responces.OrderByDescending(x=>x.likes))
     {
-        <div class="well">
+        string col = r.IsWinner?"gold":"ghostwhite";
+        
+        <div class="well" style="background-color:@col">
+            
+            @{
+                if (r.IsWinner)
+                {
+                    <h1 style="color:red">WINNER</h1>
+                    Html.RenderPartial("../Profiles/ProfilePArtial.cshtml", r.Author);
+                }                
+            }
+            
             @if (IsMyTender && Model.Tender.IsActive)
             {
-                <a asp-action="Close" asp-route-id="@r.Id">Close</a>
+                <p><a asp-action="Close" asp-route-id="@r.Id">Close</a></p>
             }
             <p>@r.Text</p>             
-            <p>@r.likes</p>
-            @if (r.likedByMe)
-            {
-                <a style="color:green;" asp-action="ToggleLike" asp-route-id="@r.Id"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
-            }
-            else
-            {
-                <a  asp-action="ToggleLike" asp-route-id="@r.Id"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
-            }
+            <p>
+                @r.likes |
+                @if (r.likedByMe)
+                {
+                    <a style="color:green;" asp-action="ToggleLike" asp-route-id="@r.Id"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
+                }
+                else
+                {
+                    <a  asp-action="ToggleLike" asp-route-id="@r.Id"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
+                }
+            </p>
         </div>
          
     }
 }
 
-@Html.Partial("AddResponce.cshtml", new TenderResponce(), ViewData)
+@if (Model.Tender.IsActive)
+{
+    @Html.Partial("AddResponce.cshtml", new TenderResponce(), ViewData)
+}
+else
+{
+    <h1 style="color:red">CLOSED</h1>
+}
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

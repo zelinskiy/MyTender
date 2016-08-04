@@ -11,6 +11,7 @@ using MyTender.Models.SearchViewModels;
 
 namespace MyTender.Controllers
 {
+    [Authorize]
     public class SearchController : Controller
     {
 

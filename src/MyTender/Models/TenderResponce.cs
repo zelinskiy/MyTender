@@ -14,6 +14,7 @@ namespace MyTender.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Text can't be empty")]
         [StringLength(1000, MinimumLength = 2, ErrorMessage = "Length must be [2,1000]")]
         public string Text { get; set; }
+        public bool IsWinner { get; set; }
 
         public virtual ApplicationUser Author { get; set; }
         public virtual Tender Tender { get; set; }

@@ -8,8 +8,10 @@ using MyTender.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace MyTender.Controllers
 {
+    [Authorize]
     public class ProfilesController : Controller
     {
         ApplicationDbContext _context;
@@ -24,6 +26,7 @@ namespace MyTender.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Title"] = "All Profiles";
             var model = _context.Users
                 .Include(u => u.Tenders)
                 .Include(u => u.TenderResponces)
@@ -33,6 +36,7 @@ namespace MyTender.Controllers
 
         public IActionResult Profile(string id)
         {
+            ViewData["Title"] = "Profile";
             var model = _context.Users
                 .Include(u => u.Tenders)
                 .Include(u => u.TenderResponces)
@@ -44,7 +48,7 @@ namespace MyTender.Controllers
             }
             else
             {
-                return View(model);
+                return View("Index", new List<ApplicationUser>() { model });
             }
             
         }

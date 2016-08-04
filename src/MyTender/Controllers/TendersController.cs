@@ -83,6 +83,7 @@ namespace MyTender.Controllers
                 return NotFound();
             }
             responce.Author.Money += responce.Tender.Price;
+            responce.IsWinner = true;
             _context.Update(responce.Author);
             responce.Tender.IsActive = false;
             _context.Update(responce.Tender);
