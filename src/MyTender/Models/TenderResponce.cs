@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyTender.Models
 {
-    public class TenderResponce:ISearchable, IRewardable
+    public class TenderResponce:ISearchable
     {
         public int Id { get; set; }
         
@@ -21,9 +21,7 @@ namespace MyTender.Models
 
         public int likes;
         public bool likedByMe;
-
-        public List<Prize> Prizes { get; set; }
-
+        
         public List<string> GetSearchableFields()
         {
             return new List<string>()

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using MyTender.Data;
 
-namespace MyTender.Data.Migrations
+namespace MyTender.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160803115731_Migration3")]
-    partial class Migration3
+    [Migration("20160808082256_Migration0")]
+    partial class Migration0
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -130,6 +130,8 @@ namespace MyTender.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("AvatarUrl");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -188,12 +190,32 @@ namespace MyTender.Data.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("MyTender.Models.Prize", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("RewardedEntityId");
+
+                    b.Property<string>("RewardedEntityType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Prizes");
+                });
+
             modelBuilder.Entity("MyTender.Models.Tender", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AuthorId");
+
+                    b.Property<DateTime>("FinishedAt");
 
                     b.Property<bool>("IsActive");
 
@@ -217,10 +239,13 @@ namespace MyTender.Data.Migrations
 
                     b.Property<string>("AuthorId");
 
+                    b.Property<bool>("IsWinner");
+
                     b.Property<int?>("TenderId");
 
                     b.Property<string>("Text")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 1000);
 
                     b.HasKey("Id");
 

@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using MyTender.Data;
 
-namespace MyTender.Data.Migrations
+namespace MyTender.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160804115727_Migration7")]
-    partial class Migration7
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
@@ -190,12 +189,32 @@ namespace MyTender.Data.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("MyTender.Models.Prize", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("RewardedEntityId");
+
+                    b.Property<string>("RewardedEntityType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Prizes");
+                });
+
             modelBuilder.Entity("MyTender.Models.Tender", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AuthorId");
+
+                    b.Property<DateTime>("FinishedAt");
 
                     b.Property<bool>("IsActive");
 

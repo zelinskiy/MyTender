@@ -18,6 +18,7 @@ namespace MyTender.Data
         public DbSet<Tender> Tenders { get; set; }
         public DbSet<TenderResponce> TenderResponces { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<Prize> Prizes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
