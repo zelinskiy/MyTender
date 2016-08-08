@@ -52,7 +52,7 @@ namespace MyTender.Controllers
             }            
         }
 
-        [Authorize(Roles ="admin")]
+        
         public async Task<IActionResult> ToggleAdmin(string id)
         {
             var user = await _userManager.FindByIdAsync(id);

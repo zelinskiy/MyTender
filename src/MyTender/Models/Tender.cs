@@ -24,7 +24,7 @@ namespace MyTender.Models
         public DateTime FinishedAt { get; set; }
 
         public virtual List<TenderResponce> Responces { get; set; }
-
+        
         public List<string> GetSearchableFields()
         {
             return new List<string>()
@@ -32,5 +32,6 @@ namespace MyTender.Models
                 Text
             };
         }
+        
     }
 }

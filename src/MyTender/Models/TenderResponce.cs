@@ -22,6 +22,7 @@ namespace MyTender.Models
 
         public int likes;
         public bool likedByMe;
+        public List<Prize> prizes;
         
         public List<string> GetSearchableFields()
         {

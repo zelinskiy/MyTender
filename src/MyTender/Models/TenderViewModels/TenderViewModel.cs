@@ -9,6 +9,7 @@ namespace MyTender.Models.TenderViewModels
     {
         public Tender Tender { get; set; }
         public List<TenderResponce> Responces { get; set; }
+        public List<Prize> Prizes { get; set; }
         public ApplicationUser Me { get; set; }
     }
 }

@@ -1,0 +1,34 @@
+@model MyTender.Models.TenderViewModels.AssignPrizeViewModel
+
+@{
+    ViewData["Title"] = "Assign Prize";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AssignPrize</h2>
+
+<form asp-action="@ViewData["ActionName"]">
+    <div class="form-horizontal">
+        <h4>Assign Prize</h4>
+        <hr />
+        <input type="hidden" asp-for="EntityId" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>        
+        <div class="form-group">
+            <label asp-for="PrizeId" class="col-md-2 control-label"></label>
+            <select asp-for="PrizeId"
+                    asp-items="@(new SelectList(Model.PrizesList,"Id","Name"))">
+                <option>Please select prize</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Assign" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>    
+</div>
+

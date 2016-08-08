@@ -6,12 +6,11 @@
         <br />
         <h6>@Model.UserName</h6>
         <h6>Money: @Model.Money</h6>
-        @if (User.IsInRole("admin"))
-        {
-            <a asp-action="ToggleAdmin" asp-route-id="@Model.Id">Toggle Admin</a>
-            <br />
-            <a asp-action="AddMoney" asp-route-id="@Model.Id">Add 1000</a>
-        }
+        
+        <a asp-action="ToggleAdmin" asp-route-id="@Model.Id">Make Admin</a>
+        <br />
+        <a asp-action="AddMoney" asp-route-id="@Model.Id">Add 1000</a>
+        
     </a>
 </div>   
 

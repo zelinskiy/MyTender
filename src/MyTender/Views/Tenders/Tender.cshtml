@@ -9,6 +9,21 @@
 
 <h2>@Model.Tender.Text</h2>
 <h3>Reward = @Model.Tender.Price</h3>
+<hr />
+<h2>PRIZES:</h2>
+<span>
+    @foreach (var p in Model.Prizes)
+    {
+        <img style="max-height:30px;max-width:30px;" src="/@p.PictureUrl" />
+    }
+</span>
+<hr />
+
+@if (IsMyTender)
+{
+    <a asp-action="AssignPrizeTender" asp-route-id="@Model.Tender.Id">Add Prize</a>
+}
+
 @if (User.IsInRole("admin"))
 {
     <h5><a asp-action="DeleteTender" asp-route-id="@Model.Tender.Id">DELETE</a></h5>
@@ -25,14 +40,23 @@
                 if (r.IsWinner)
                 {
                     <h1 style="color:red">WINNER</h1>
-                    Html.RenderPartial("../Profiles/ProfilePArtial.cshtml", r.Author);
+                    Html.RenderPartial("../Profiles/ProfilePartial.cshtml", r.Author);
                 }                
             }
             
             @if (IsMyTender && Model.Tender.IsActive)
             {
-                <p><a asp-action="Close" asp-route-id="@r.Id">Make winner</a></p>
+                <p>
+                    <a asp-action="Close" asp-route-id="@r.Id">Make winner</a>
+                    <a asp-action="AssignPrizeResponce" asp-route-id="@r.Id">Prize</a>
+                </p>
             }
+            <span>
+                @foreach(var p in r.prizes)
+                {
+                    <img style="max-height:30px;max-width:30px;" src="/@p.PictureUrl" />
+                }
+            </span>
             <p>@r.Text</p>             
             <p>
                 @r.likes |

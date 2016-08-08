@@ -96,6 +96,126 @@ namespace MyTender.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> AssignPrizeTender(int id)
+        {
+            ViewData["ActionName"] = "AssignPrizeTender";
+            var model = new AssignPrizeViewModel();
+            var tender = _context.Tenders
+                .Single(t => t.Id == id);
+
+            var availablePrizesIds = _context.PrizeEntityRelations
+                .Where(pr => pr.EntityType == "ApplicationUSer"
+                    && pr.EntityId == Me.Id)
+                .Select(pr => pr.PrizeId);
+
+            var prizes = _context.Prizes
+                .Where(p => availablePrizesIds.Contains(p.Id))
+                .ToList();
+
+            model.PrizesList = prizes;
+            model.EntityId = id;
+
+            return View("AssignPrize", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignPrizeTender(int id, AssignPrizeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var tender = _context.Tenders
+                    .Single(t => t.Id == id);
+
+                var pr = _context.PrizeEntityRelations
+                    .First(x => x.EntityType == "ApplicationUser"
+                        && x.EntityId == Me.Id
+                        && x.PrizeId == model.PrizeId);
+
+                _context.PrizeEntityRelations.Remove(pr);
+                _context.PrizeEntityRelations.Add(new PrizeEntityRelation()
+                {
+                    PrizeId = model.PrizeId,
+                    EntityType = "Tender",
+                    EntityId = tender.Id.ToString()
+                });
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Tender", new { id = model.EntityId });
+            }
+            else
+            {
+                return View("AsignPrize", model);
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> AssignPrizeResponce(int id)
+        {
+            ViewData["ActionName"] = "AssignPrizeResponce";
+            var model = new AssignPrizeViewModel();
+            var responce = _context.TenderResponces
+                .Include(r => r.Tender)
+                .Single(r => r.Id == id);
+
+            var availablePrizesIds = _context.PrizeEntityRelations
+                .Where(pr => pr.EntityType == "Tender"
+                    && pr.EntityId == responce.Tender.Id.ToString())
+                .Select(pr => pr.PrizeId);
+
+            var prizes = _context.Prizes
+                .Where(p => availablePrizesIds.Contains(p.Id))
+                .ToList();
+
+            model.PrizesList = prizes;
+            model.EntityId = id;
+
+            return View("AssignPrize", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignPrizeResponce(int id, AssignPrizeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var responce = _context.TenderResponces
+                    .Include(r => r.Tender)
+                    .Include(r=>r.Author)
+                    .Single(r => r.Id == model.EntityId);
+
+                var pr = _context.PrizeEntityRelations
+                    .First(x => x.EntityType == "Tender"
+                        && x.EntityId == responce.Tender.Id.ToString()
+                        && x.PrizeId == model.PrizeId);
+
+                _context.PrizeEntityRelations.Remove(pr);
+                _context.PrizeEntityRelations.Add(new PrizeEntityRelation()
+                {
+                    PrizeId = model.PrizeId,
+                    EntityType = "TenderResponce",
+                    EntityId = responce.Id.ToString()
+                });
+                _context.PrizeEntityRelations.Add(new PrizeEntityRelation()
+                {
+                    PrizeId = model.PrizeId,
+                    EntityType = "ApplicationUser",
+                    EntityId = responce.Author.Id.ToString()
+                });
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Tender", new { id = responce.Tender.Id });
+            }
+            else
+            {
+                return View("AsignPrize", model);
+            }
+        }
+
+
+
+        [HttpGet]
         public async Task<IActionResult> Tender(int id)
         {
             var tender = await _context.Tenders
@@ -107,20 +227,39 @@ namespace MyTender.Controllers
                 .Where(r => r.Tender.Id == tender.Id)
                 .ToListAsync();
 
-            foreach(var r in responces)
+            var prizesIds = _context.PrizeEntityRelations
+                .Where(pr => pr.EntityType == "Tender"
+                    && pr.EntityId == tender.Id.ToString())
+                .Select(pr => pr.PrizeId);
+
+            var prizes = _context.Prizes
+                .Where(p => prizesIds.Contains(p.Id))
+                .ToList();
+
+            foreach (var r in responces)
             {
                 r.likes = _context.Likes
                     .Count(l => l.TenderResponceId == r.Id);
                 r.likedByMe = _context.Likes
                     .Count(l => l.TenderResponceId == r.Id 
                         && l.ApplicationUserId == Me.Id) != 0;
+
+                var rPrizesIds = _context.PrizeEntityRelations
+                    .Where(pr => pr.EntityType == "TenderResponce"
+                        && pr.EntityId == r.Id.ToString())
+                    .Select(pr => pr.PrizeId);
+
+                r.prizes = _context.Prizes
+                    .Where(p => rPrizesIds.Contains(p.Id))
+                    .ToList();
             }
 
             var model = new TenderViewModel()
             {
                 Tender = tender,
                 Responces = responces,
-                Me = this.Me
+                Me = this.Me,
+                Prizes = prizes
             };
             return View(model);
         }
