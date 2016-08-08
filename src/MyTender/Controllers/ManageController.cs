@@ -75,11 +75,14 @@ namespace MyTender.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeAvatar(IFormFile file)
         {
-            var user = await GetCurrentUserAsync();
-            user.AvatarUrl = await _fileSaver.SaveFileAsync(file);
-            var result = await _userManager.UpdateAsync(user);
+            if(file != null)
+            {
+                var user = await GetCurrentUserAsync();
+                user.AvatarUrl = await _fileSaver.SaveFileAsync(file);
+                var result = await _userManager.UpdateAsync(user);
+            }            
 
-            return Content("OK");
+            return RedirectToAction("Index");
         }
 
 

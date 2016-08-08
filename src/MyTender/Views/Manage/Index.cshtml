@@ -3,37 +3,15 @@
     ViewData["Title"] = "Manage your account";
 }
 
-@section Scripts{
-<script>
-    function uploadAvatar() {
-        var data = new FormData($("#uploadForm")[0]);
-        $.ajax({
-            url: "/Manage/ChangeAvatar",
-            type: "POST",
-            data: data,
-            contentType: false,
-            dataType: false,
-            processData: false,
-            success: function (result) {
-                window.location.reload();
-            }
-        });
-    }
-</script>
-}
+
 
 
 
 <h2>@ViewData["Title"].</h2>
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
+<img style="max-height:300px;max-width:300px;" src="@Model.AvatarUrl" />
 
-<form id="uploadForm" enctype="multipart/form-data">
-    <label for="file">
-        <img style="max-height:300px;max-width:300px;" src="@Model.AvatarUrl" />
-    </label>
-    <input id="file" type="file" style="display:none" name="file" onchange="uploadAvatar()" />
-</form>
 
 <div>
     <h4>Change your account settings</h4>
@@ -55,6 +33,15 @@
 
             @Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
         </dd>
+
+        <dt>Avatar: </dt>
+        <dd>
+            <form asp-action="ChangeAvatar" enctype="multipart/form-data">
+                <input id="file" type="file" name="file" />
+                <input type="submit" />
+            </form>
+        </dd>
+
         <dt>Phone Number:</dt>
         <dd>
             <p>
