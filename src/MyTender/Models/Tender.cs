@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyTender.Models
 {
-    public class Tender:ISearchable
+    public class Tender:ISearchable, IRewardable
     {
         public int Id { get; set; }
 
@@ -20,6 +20,10 @@ namespace MyTender.Models
         [Required(AllowEmptyStrings =false,ErrorMessage ="Text can't be empty")]
         [StringLength(1000,MinimumLength = 5, ErrorMessage ="Length must be [5,1000]")]
         public string Text { get; set; }
+
+        public List<Prize> Prizes { get; set; }
+
+        public DateTime FinishedAt { get; set; }
 
         public virtual List<TenderResponce> Responces { get; set; }
 

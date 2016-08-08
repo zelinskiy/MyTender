@@ -7,13 +7,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace MyTender.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser, ISearchable
+    public class ApplicationUser : IdentityUser, ISearchable, IRewardable
     {
         public virtual List<Tender> Tenders { get; set; }
         public virtual List<TenderResponce> TenderResponces { get; set; }
         public int Money { get; set; }
 
         public string AvatarUrl { get; set; }
+
+        public List<Prize> Prizes { get; set; }
 
         public List<string> GetSearchableFields()
         {
