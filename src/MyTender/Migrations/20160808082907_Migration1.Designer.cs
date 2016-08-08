@@ -8,9 +8,10 @@ using MyTender.Data;
 namespace MyTender.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160808082907_Migration1")]
+    partial class Migration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
@@ -194,25 +195,17 @@ namespace MyTender.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApplicationUserId");
-
                     b.Property<string>("Description");
 
                     b.Property<string>("Name");
 
                     b.Property<int>("Price");
 
-                    b.Property<int?>("TenderId");
+                    b.Property<int>("RewardedEntityId");
 
-                    b.Property<int?>("TenderResponceId");
+                    b.Property<string>("RewardedEntityType");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("TenderId");
-
-                    b.HasIndex("TenderResponceId");
 
                     b.ToTable("Prizes");
                 });
@@ -300,21 +293,6 @@ namespace MyTender.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MyTender.Models.Prize", b =>
-                {
-                    b.HasOne("MyTender.Models.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("MyTender.Models.Tender")
-                        .WithMany()
-                        .HasForeignKey("TenderId");
-
-                    b.HasOne("MyTender.Models.TenderResponce")
-                        .WithMany()
-                        .HasForeignKey("TenderResponceId");
                 });
 
             modelBuilder.Entity("MyTender.Models.Tender", b =>

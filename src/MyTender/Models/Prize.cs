@@ -10,8 +10,11 @@ namespace MyTender.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int Price { get; set; }
 
-        public string RewardedEntityType { get; set; }
-        public int RewardedEntityId { get; set; }
+        //Plz access these from the other side
+        public virtual TenderResponce TenderResponce { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual Tender Tender { get; set; }
     }
 }
