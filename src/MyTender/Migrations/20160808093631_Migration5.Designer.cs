@@ -8,9 +8,10 @@ using MyTender.Data;
 namespace MyTender.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160808093631_Migration5")]
+    partial class Migration5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
@@ -221,8 +222,6 @@ namespace MyTender.Migrations
                     b.Property<string>("EntityId");
 
                     b.Property<string>("EntityType");
-
-                    b.Property<int>("PrizeId");
 
                     b.HasKey("Id");
 

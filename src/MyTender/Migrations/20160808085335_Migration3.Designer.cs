@@ -8,9 +8,10 @@ using MyTender.Data;
 namespace MyTender.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160808085335_Migration3")]
+    partial class Migration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
@@ -194,6 +195,8 @@ namespace MyTender.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ApplicationUserId");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 1000);
@@ -208,25 +211,19 @@ namespace MyTender.Migrations
 
                     b.Property<int>("Price");
 
+                    b.Property<int?>("TenderId");
+
+                    b.Property<int?>("TenderResponceId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("TenderId");
+
+                    b.HasIndex("TenderResponceId");
 
                     b.ToTable("Prizes");
-                });
-
-            modelBuilder.Entity("MyTender.Models.PrizeEntityRelation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("EntityId");
-
-                    b.Property<string>("EntityType");
-
-                    b.Property<int>("PrizeId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PrizeEntityRelations");
                 });
 
             modelBuilder.Entity("MyTender.Models.Tender", b =>
@@ -312,6 +309,21 @@ namespace MyTender.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MyTender.Models.Prize", b =>
+                {
+                    b.HasOne("MyTender.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("MyTender.Models.Tender")
+                        .WithMany()
+                        .HasForeignKey("TenderId");
+
+                    b.HasOne("MyTender.Models.TenderResponce")
+                        .WithMany()
+                        .HasForeignKey("TenderResponceId");
                 });
 
             modelBuilder.Entity("MyTender.Models.Tender", b =>

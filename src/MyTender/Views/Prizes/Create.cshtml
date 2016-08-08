@@ -7,18 +7,18 @@
 
 <h2>Create</h2>
 
-<form asp-action="Create">
+<p>
+    <a asp-action="Buy">return</a>
+</p>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-horizontal">
         <h4>Prize</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger" />
-            </div>
-        </div>
+
+        <input id="file" type="file" name="file" />
+
         <div class="form-group">
             <label asp-for="Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -27,12 +27,19 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger" />
+            </div>
+        </div>        
+        <div class="form-group">
             <label asp-for="Price" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger" />
             </div>
-        </div>        
+        </div>    
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
